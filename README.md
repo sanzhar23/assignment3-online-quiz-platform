@@ -5,7 +5,7 @@ Each quiz has a name and difficulty level, and each question belongs to a quiz a
 
 Program is divided into packages:
 The model package contains classes that describe quizzes and questions
-repository package is responsible for working with the database
+Repository package is responsible for working with the database
 The db package contains the database connection
 Custom exceptions are used to handle errors
 Main class is used to show how the program work
