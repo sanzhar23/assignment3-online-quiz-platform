@@ -9,4 +9,5 @@ repository package is responsible for working with the database
 The db package contains the database connection
 Custom exceptions are used to handle errors
 Main class is used to show how the program work
-<img width="1868" height="761" alt="image" src="https://github.com/user-attachments/assets/2efb3c37-aaf8-4c1d-abfb-687794d4a88b" />
+<img width="850" height="395" alt="image" src="https://github.com/user-attachments/assets/2aae3b3d-b616-4b11-93d2-ec52367a6c01" />
+
