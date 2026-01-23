@@ -31,6 +31,23 @@ public class QuizRepository {
         }
     }
 
+    public boolean existsByName(String name) {
+        String sql = "SELECT 1 FROM quizzes WHERE name = ? LIMIT 1";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, name);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Failed to check quiz by name", e);
+        }
+    }
+
     public Quiz getById(int id) {
         String sql = "SELECT * FROM quizzes WHERE id = ?";
 

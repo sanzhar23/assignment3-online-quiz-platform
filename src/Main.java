@@ -8,10 +8,10 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // ===== QUIZ PART =====
+        //quiz
         QuizRepository quizRepo = new QuizRepository();
 
-        // создаём новый квиз (уникальное имя, чтобы не ловить duplicate)
+        //создание нового quiz
         Quiz quiz = new EasyQuiz("Test Quiz " + System.currentTimeMillis());
         quizRepo.create(quiz);
 
@@ -20,25 +20,23 @@ public class Main {
             System.out.println(q.getId() + " | " + q.label());
         }
 
-        // берём первый квиз
+        //берем quiz 1
         int quizId = quizRepo.getAll().get(0).getId();
 
         System.out.println("\n=== QUIZ BY ID ===");
         System.out.println(quizRepo.getById(quizId).label());
 
-        // ===== QUESTION PART =====
+        // вопросы
         QuestionRepository questionRepo = new QuestionRepository();
 
-        // добавляем вопрос к этому квизу
-        Question question = new Question(
-                quizId,
-                "2 + 2 = ?",
-                "4",
-                1
-        );
-        questionRepo.create(question);
+        String text = "2 + 2 = ?";
+        String answer = "4";
 
-        System.out.println("\n=== QUESTIONS FOR QUIZ " + quizId + " ===");
+        if (!questionRepo.existsSameQuestion(quizId, text, answer)) {
+            Question question = new Question(quizId, text, answer, 1);
+            questionRepo.create(question);
+        }
+        System.out.println("\n===QUESTIONS FOR QUIZ " + quizId + "===");
         for (Question q : questionRepo.getAllByQuizId(quizId)) {
             System.out.println(
                     q.getId() + " | " +

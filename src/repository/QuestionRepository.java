@@ -124,4 +124,23 @@ public class QuestionRepository {
 
         return new Question(id, quizId, text, correctAnswer, points);
     }
+    public boolean existsSameQuestion(int quizId, String text, String correctAnswer) {
+        String sql = "SELECT 1 FROM questions WHERE quiz_id = ? AND text = ? AND correct_answer = ? LIMIT 1";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, quizId);
+            ps.setString(2, text);
+            ps.setString(3, correctAnswer);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Failed to check question duplicate", e);
+        }
+    }
+
 }
