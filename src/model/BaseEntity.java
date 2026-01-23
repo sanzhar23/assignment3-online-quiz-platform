@@ -1,7 +1,6 @@
 package model;
 
 public abstract class BaseEntity {
-
     protected int id;
     protected String name;
 
