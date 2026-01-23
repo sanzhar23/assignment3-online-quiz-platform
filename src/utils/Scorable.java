@@ -1,4 +1,5 @@
 package utils;
 
-public class Scorable {
+public interface Scorable {
+    int maxScore();
 }

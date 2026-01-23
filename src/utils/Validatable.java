@@ -1,4 +1,5 @@
 package utils;
 
-public class Validatable {
+public interface Validatable {
+    void validate();
 }
