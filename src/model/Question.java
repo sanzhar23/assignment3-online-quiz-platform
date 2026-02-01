@@ -10,12 +10,11 @@ public class Question implements Validatable {
     private String correctAnswer;
     private int points;
 
-    // Для создания нового вопроса (id будет в БД)
-    public Question(int quizId, String text, String correctAnswer, int points) {
+    public Question(int quizId, String text, String correctAnswer, int points) { //Чтобы создать новый вопрос
         this(0, quizId, text, correctAnswer, points);
     }
 
-    // Для чтения из БД (id уже известен)
+    //Для чтения из БД 
     public Question(int id, int quizId, String text, String correctAnswer, int points) {
         this.id = id;
         this.quizId = quizId;
