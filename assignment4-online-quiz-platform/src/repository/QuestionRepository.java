@@ -1,4 +1,6 @@
 package repository;
+import repository.interfaces.CrudRepository;
+
 
 import db.DatabaseConnection;
 import exception.DatabaseOperationException;
@@ -12,7 +14,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QuestionRepository {
+public class QuestionRepository implements CrudRepository<Question> {
+
 
     public void create(Question q) {
         String sql = "INSERT INTO questions (quiz_id, text, correct_answer, points) VALUES (?, ?, ?, ?)";
@@ -31,6 +34,23 @@ public class QuestionRepository {
             throw new DatabaseOperationException("Failed to create question", e);
         }
     }
+    @Override
+    public List<Question> getAll() {
+        String sql = "SELECT * FROM questions ORDER BY id";
+        List<Question> questions = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                questions.add(mapRowToQuestion(rs));
+            }
+            return questions;
+        } catch (SQLException e) {
+            throw new DatabaseOperationException("Failed to get all questions", e);
+        }
+    }
 
     public Question getById(int id) {
         String sql = "SELECT * FROM questions WHERE id = ?";
@@ -39,7 +59,6 @@ public class QuestionRepository {
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return mapRowToQuestion(rs);
@@ -47,7 +66,6 @@ public class QuestionRepository {
             }
 
             throw new ResourceNotFoundException("Question not found with id=" + id);
-
         } catch (SQLException e) {
             throw new DatabaseOperationException("Failed to get question by id", e);
         }
@@ -67,9 +85,7 @@ public class QuestionRepository {
                     questions.add(mapRowToQuestion(rs));
                 }
             }
-
             return questions;
-
         } catch (SQLException e) {
             throw new DatabaseOperationException("Failed to get questions by quizId", e);
         }
